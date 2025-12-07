@@ -1,62 +1,67 @@
 import pride from "../engine/pride.js";
-import * as glContext from "../engine/core/gl_context.js";
+import * as loop from "../engine/core/loop.js";
 
 
 
 class Game {
-    constructor(canvasID) {
-        pride.init(canvasID);
+    constructor() {
+        this.camera = null;
+        
+        this.white = null;
+        this.red = null;
+    }
 
+
+
+    init() {
         this.camera = new pride.Camera(
             glMatrix.vec2.fromValues(20, 60),
             20,
             [20, 40, 600, 300]
         );
-        
-        this.blue = new pride.Renderable();
-        this.blue.setColor([0.25, 0.25, 0.95, 1]);
+        this.camera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+
+        this.white = new pride.Renderable();
+        this.white.setColor([1, 1, 1, 1]);
+        this.white.getTransform().setPosition(20, 60);
+        this.white.getTransform().setRotationRadians(0.2);
+        this.white.getTransform().setSize(5, 5);
+
         this.red = new pride.Renderable();
-        this.red.setColor([1, 0.25, 0.25, 1]);
-
-        this.tl = new pride.Renderable();
-        this.tl.setColor([0.9, 0.1, 0.1, 1]);
-        this.tr = new pride.Renderable();
-        this.tr.setColor([0.1, 0.9, 0.1, 1]);
-        this.bl = new pride.Renderable();
-        this.bl.setColor([0.1, 0.1, 0.1, 1]);
-        this.br = new pride.Renderable();
-        this.br.setColor([0.9, 0.1, 0.9, 1]);
-
-        pride.clearCanvas([0.9, 0.9, 0.9, 1]);
-        
-        this.camera.adjustProjection();
-
-
-        this.blue.getTransform().setPosition(20, 60);
-        this.blue.getTransform().setRotationRadians(0.2);
-        this.blue.getTransform().setSize(5, 5);
-        this.blue.draw(this.camera);
-
+        this.red.setColor([1, 0, 0, 1]);
         this.red.getTransform().setPosition(20, 60);
         this.red.getTransform().setSize(2, 2);
+    }
+
+    draw() {
+        pride.clearCanvas([0.9, 0.9, 0.9, 1]);
+        this.camera.adjustProjection();
+
+        this.white.draw(this.camera);
         this.red.draw(this.camera);
-        
-        this.tl.getTransform().setPosition(10, 65);
-        this.tl.draw(this.camera);
+    }
 
-        this.tr.getTransform().setPosition(30, 65);
-        this.tr.draw(this.camera);
+    update() {
+        let whiteTransform = this.white.getTransform();
+        let deltaX = 0.05;
+        if (whiteTransform.getPositionX() > 30) {
+            whiteTransform.setPositionX(10);
+        }
+        whiteTransform.increasePositionX(deltaX);
+        whiteTransform.increaseRotationDegrees(1);
 
-        this.bl.getTransform().setPosition(10, 55);
-        this.bl.draw(this.camera);
-
-        this.br.getTransform().setPosition(30, 55);
-        this.br.draw(this.camera);
+        let redTransform = this.red.getTransform();
+        if (redTransform.getWidth() > 5) {
+            redTransform.setSize(2, 2);
+        }
+        redTransform.increaseSize(0.05);
     }
 }
 
 
 
 window.onload = function() {
-    new Game("pride-canvas")
+    pride.init("pride-canvas");
+    let game = new Game();
+    loop.start(game)
 }

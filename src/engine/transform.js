@@ -7,7 +7,7 @@ class Transform {
 
 
 
-    increasePositionX(value) { this.position.x += value; }
+    increasePositionX(value) { this.position[0] += value; }
 
     setPositionX(x) { this.position[0] = x; }
 

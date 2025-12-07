@@ -1,1 +1,1 @@
-Simple 2D Game Engine, written in JavaScript and WebGL 2
+Простой двухмерный игровой движок, написанный на JavaScript с использованием WebGL 2

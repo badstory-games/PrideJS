@@ -6,7 +6,8 @@ import * as vertexBuffer from "./vertex_buffer.js";
 class SimpleShader {
     constructor(vertexShaderPath, fragmentShaderPath) {
         this.compiledShader = null;
-        this.vertexPosition = null;
+        this.vertexPositionLocation = null;
+        this.pixelColorLocation = null;
 
         let gl = core.getGL();
         
@@ -26,10 +27,13 @@ class SimpleShader {
         }
         
         // Шаг D: Получение ссылки на атрибут aVertexPosition в шейдере
-        this.vertexPosition = gl.getAttribLocation(this.compiledShader, "aVertexPosition");
+        this.vertexPositionLocation = gl.getAttribLocation(this.compiledShader, "aVertexPosition");
+
+        // Шаг E: Получение ссылки на uPixelColor во фрагментном шейдере
+        this.pixelColorLocation = gl.getUniformLocation(this.compiledShader, "uPixelColor");
     }
 
-    activate() {
+    activate(pixelColor) {
         // Шаг А: Доступ к WebGL контексту
         let gl = core.getGL();
     
@@ -39,14 +43,17 @@ class SimpleShader {
         // Шаг C: Привязка вершинного буфера к атрибуту, определенному в вершинном шейдере
         gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
         gl.vertexAttribPointer(
-            this.vertexPosition,
+            this.vertexPositionLocation,
             3,  // Каждый элемент имеет 3-float (x, y, z)
             gl.FLOAT, // Тип данных - FLOAT
             false, // Является ли содержимое нормализованными векторами
             0, // Количество байт, которые нужно пропускать между элементами
             0 // Смещение, относительно первого элемента
         );
-        gl.enableVertexAttribArray(this.vertexPosition);
+        gl.enableVertexAttribArray(this.vertexPositionLocation);
+
+        // Загрузка цвета во фрагментный шейдер
+        gl.uniform4fv(this.pixelColorLocation, pixelColor);
     }
 }
 

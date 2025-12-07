@@ -34,12 +34,12 @@ function initWebGL(canvasID) {
 }
 
 function createShader() {
-    shader = new SimpleShader("src/engine/glsl/simple_vs.glsl", "src/engine/glsl/white_fs.glsl");
+    shader = new SimpleShader("src/engine/glsl/simple_vs.glsl", "src/engine/glsl/simple_fs.glsl");
 }
 
-function drawSquare() {
+function drawSquare(color) {
     // Шаг А: Активация шейдера
-    shader.activate();
+    shader.activate(color);
 
     // Шаг B: Отрисовка с указанными настройками
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);

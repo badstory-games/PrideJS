@@ -1,5 +1,6 @@
 import * as glContext from "./core/gl_context.js";
 import * as shaders from "./core/shaders.js";
+import Transform from "./transform.js";
 
 
 
@@ -7,9 +8,12 @@ class Renderable {
     constructor() {
         this.shader = shaders.getColorShader();
         this.color = [1, 1, 1, 1];
+        this.transform = new Transform();
     }
 
 
+
+    getTransform() { return this.transform; }
 
     setColor(color) { this.color = color; }
     
@@ -17,9 +21,9 @@ class Renderable {
 
 
 
-    draw(transformMatrix) {
+    draw() {
         let gl = glContext.get();
-        this.shader.activate(this.color, transformMatrix);
+        this.shader.activate(this.color, this.transform.getMatrix());
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
 }

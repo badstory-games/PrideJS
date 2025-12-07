@@ -21,9 +21,9 @@ class Renderable {
 
 
 
-    draw() {
+    draw(cameraTransformMatrix) {
         let gl = glContext.get();
-        this.shader.activate(this.color, this.transform.getMatrix());
+        this.shader.activate(this.color, this.transform.getMatrix(), cameraTransformMatrix);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
 }

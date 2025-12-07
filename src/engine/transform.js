@@ -9,15 +9,15 @@ class Transform {
 
     increasePositionX(value) { this.position.x += value; }
 
-    setPositionX(x) { this.position.x = x; }
+    setPositionX(x) { this.position[0] = x; }
 
-    getPositionX() { return this.position.x; }
+    getPositionX() { return this.position[0]; }
 
-    increasePositionY(value) { this.position.y += value; }
+    increasePositionY(value) { this.position[1] += value; }
 
-    setPositionY(y) { this.position.y = y; }
+    setPositionY(y) { this.position[1] = y; }
 
-    getPositionY() { return this.position.y; }
+    getPositionY() { return this.position[1]; }
 
     setPosition(x, y) { this.setPositionX(x); this.setPositionY(y); }
 
@@ -25,17 +25,17 @@ class Transform {
 
 
 
-    increaseWidth(value) { this.size.x += value; }
+    increaseWidth(value) { this.size[0] += value; }
 
-    setWidth(width) { this.size.x = width; }
+    setWidth(width) { this.size[0] = width; }
 
-    getWidth() { return this.size.x; }
+    getWidth() { return this.size[0]; }
 
-    increaseHeight(value) { this.size.y += value; }
+    increaseHeight(value) { this.size[1] += value; }
 
-    setHeight(height) { this.size.y = height; }
+    setHeight(height) { this.size[1] = height; }
 
-    getHeight() { return this.size.y; }
+    getHeight() { return this.size[1]; }
 
     increaseSize(value) { this.increaseWidth(value); this.increaseHeight(value); }
 

@@ -1,5 +1,5 @@
-import * as core from "./core.js";
-import * as vertexBuffer from "./vertex_buffer.js";
+import * as glContext from "./core/gl_context.js";
+import * as vertexBuffer from "./core/vertex_buffer.js";
 
 
 
@@ -9,7 +9,7 @@ class SimpleShader {
         this.vertexPositionLocation = null;
         this.pixelColorLocation = null;
 
-        let gl = core.getGL();
+        let gl = glContext.get();
         
         // Шаг А: Загрузка и компиляция вершинного и фрагментного шейдера
         this.vertexShader = loadAndCompileShader(vertexShaderPath, gl.VERTEX_SHADER);
@@ -35,7 +35,7 @@ class SimpleShader {
 
     activate(pixelColor) {
         // Шаг А: Доступ к WebGL контексту
-        let gl = core.getGL();
+        let gl = glContext.get();
     
         // Шаг B: Определение скомпилированного шейдера для использования
         gl.useProgram(this.compiledShader);
@@ -61,7 +61,7 @@ function loadAndCompileShader(filePath, type) {
     let xmlRequest;
     let shaderSource = null;
     let shader = null;
-    let gl = core.getGL();
+    let gl = glContext.get();
 
     // Шаг A: Запрос текста из указанного расположения файла
     xmlRequest = new XMLHttpRequest();

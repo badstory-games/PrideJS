@@ -1,6 +1,6 @@
 "use strict";
 
-import * as core from "./core.js";
+import * as glContext from "./gl_context.js";
 
 
 
@@ -19,7 +19,7 @@ function get() { return vertexBuffer; }
 
 
 function init() {
-    let gl = core.getGL();
+    let gl = glContext.get();
 
     // Шаг А: Создание буфера в контексте gl для позиций вершин
     vertexBuffer = gl.createBuffer();

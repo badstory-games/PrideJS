@@ -1,3 +1,5 @@
+import * as input from "../input.js";
+
 "use strict";
 
 const FPS = 60;
@@ -24,6 +26,7 @@ function loopOnce() {
         lagTime += elapsedTime;
 
         while ((lagTime >= MPF) && loopRunning) {
+            input.update();
             currentScene.update();
             lagTime -= MPF;
         }

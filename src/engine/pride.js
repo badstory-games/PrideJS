@@ -1,6 +1,7 @@
 import * as glContext from "./core/gl_context.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
 import * as shaders from "./core/shaders.js";
+import * as input from "./input.js";
 
 import Camera from "./camera.js";
 import Transform from "./transform.js";
@@ -12,6 +13,7 @@ function init(canvasID) {
     glContext.init(canvasID);
     vertexBuffer.init();
     shaders.init();
+    input.init();
 }
 
 function clearCanvas(color) {
@@ -23,6 +25,8 @@ function clearCanvas(color) {
 
 
 export default {
+    input,
+    
     // Классы
     Camera, Transform, Renderable,
 

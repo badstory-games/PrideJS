@@ -43,12 +43,20 @@ class Game {
 
     update() {
         let whiteTransform = this.white.getTransform();
-        let deltaX = 0.05;
-        if (whiteTransform.getPositionX() > 30) {
-            whiteTransform.setPositionX(10);
+        let delta = 0.1;
+        
+        if (pride.input.isKeyPressed(pride.input.keys.D)) {
+            whiteTransform.increasePositionX(delta);
         }
-        whiteTransform.increasePositionX(deltaX);
-        whiteTransform.increaseRotationDegrees(1);
+        else if (pride.input.isKeyPressed(pride.input.keys.A)) {
+            whiteTransform.increasePositionX(-delta);
+        }
+        if (pride.input.isKeyPressed(pride.input.keys.W)) {
+            whiteTransform.increasePositionY(delta);
+        }
+        else if (pride.input.isKeyPressed(pride.input.keys.S)) {
+            whiteTransform.increasePositionY(-delta);
+        }
 
         let redTransform = this.red.getTransform();
         if (redTransform.getWidth() > 5) {

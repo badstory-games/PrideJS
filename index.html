@@ -1,1 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrideJS</title>
+</head>
+<body>
+    <canvas id="pride-canvas" width="640" height="480">Ваш браузер не поддерживает HTML5 Canvas</canvas>
+    <script>
+        "use strict";
+        
+        let canvas = document.getElementById("pride-canvas");
+        let gl = canvas.getContext("webgl2") || canvas.getContext("experimental-webgl2");
 
+        if (gl !== null) {
+            gl.clearColor(0.0, 0.8, 0.0, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+        }
+    </script>
+</body>
+</html>

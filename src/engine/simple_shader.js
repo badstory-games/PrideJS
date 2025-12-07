@@ -4,15 +4,15 @@ import * as vertexBuffer from "./vertex_buffer.js";
 
 
 class SimpleShader {
-    constructor(vertexShaderID, fragmentShaderID) {
+    constructor(vertexShaderPath, fragmentShaderPath) {
         this.compiledShader = null;
         this.vertexPosition = null;
 
         let gl = core.getGL();
         
         // Шаг А: Загрузка и компиляция вершинного и фрагментного шейдера
-        this.vertexShader = loadAndCompileShader(vertexShaderID, gl.VERTEX_SHADER);
-        this.fragmentShader = loadAndCompileShader(fragmentShaderID, gl.FRAGMENT_SHADER)
+        this.vertexShader = loadAndCompileShader(vertexShaderPath, gl.VERTEX_SHADER);
+        this.fragmentShader = loadAndCompileShader(fragmentShaderPath, gl.FRAGMENT_SHADER)
         
         // Шаг B: Создание шейдеров и объединение их в программу.
         this.compiledShader = gl.createProgram();
@@ -50,14 +50,30 @@ class SimpleShader {
     }
 }
 
-function loadAndCompileShader(id, type) {
+function loadAndCompileShader(filePath, type) {
+    let xmlRequest;
     let shaderSource = null;
     let shader = null;
-    let shaderText = document.getElementById(id);
     let gl = core.getGL();
 
-    // Шаг A: Получение исходного кода шейдера из index.html
-    shaderSource = shaderText.firstChild.textContent;
+    // Шаг A: Запрос текста из указанного расположения файла
+    xmlRequest = new XMLHttpRequest();
+    xmlRequest.open("GET", filePath, false);
+    try {
+        xmlRequest.send();
+    } catch (error) {
+        throw new Error("Ошибка загрузки шейдера: "
+            + filePath
+            + " [Подсказка: Вы не можете просто запустить проект в браузере. "
+            + "Проект должен находиться на сервере или запускаться с локального web-сервера.]"
+        );
+    }
+    
+    shaderSource = xmlRequest.responseText;
+
+    if (shaderSource === null) {
+        throw new Error("Ошибка загрузки файла: " + filePath);
+    }
 
     // Шаг B: Создание шейдера в зависимости от типа: вершинный или фрагментный
     shader = gl.createShader(type);

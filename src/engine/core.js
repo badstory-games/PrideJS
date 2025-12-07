@@ -34,7 +34,7 @@ function initWebGL(canvasID) {
 }
 
 function createShader() {
-    shader = new SimpleShader("vertex-shader", "fragment-shader");
+    shader = new SimpleShader("src/engine/glsl/simple_vs.glsl", "src/engine/glsl/white_fs.glsl");
 }
 
 function drawSquare() {

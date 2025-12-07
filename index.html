@@ -4,24 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrideJS</title>
-    
-    <script type="x-shader/x-vertex" id="vertex-shader">
-        // Поскольку предполагается одно соглашение об именовании позиций вершин,
-        // атрибуты всегда начинаются с "a".
-        attribute vec3 aVertexPosition;
-
-        void main(void) {
-            // Преобразование vec3 в vec4 и назначение gl_Position для передачи вершин во фрагментный шейдер
-            gl_Position = vec4(aVertexPosition, 1.0);
-        }
-    </script>
-    <script type="x-shader/x-fragment" id="fragment-shader">
-        void main(void) {
-            // Для каждого вызываемого пикселя (в пределах квадрата)
-            // устанавливается постоянный белый цвет со значением альфа-канала, равным 1,0
-            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-        }
-    </script>
 
     <script type="module" src="./src/test_game/game.js"></script>
 </head>

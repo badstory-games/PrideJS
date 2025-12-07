@@ -17,9 +17,9 @@ class Renderable {
 
 
 
-    draw() {
+    draw(transformMatrix) {
         let gl = glContext.get();
-        this.shader.activate(this.color);
+        this.shader.activate(this.color, transformMatrix);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
 }

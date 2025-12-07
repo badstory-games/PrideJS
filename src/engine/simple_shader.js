@@ -8,6 +8,7 @@ class SimpleShader {
         this.compiledShader = null;
         this.vertexPositionLocation = null;
         this.pixelColorLocation = null;
+        this.modelTransformLocation = null;
 
         let gl = glContext.get();
         
@@ -29,11 +30,12 @@ class SimpleShader {
         // Шаг D: Получение ссылки на атрибут aVertexPosition в шейдере
         this.vertexPositionLocation = gl.getAttribLocation(this.compiledShader, "aVertexPosition");
 
-        // Шаг E: Получение ссылки на uPixelColor во фрагментном шейдере
+        // Шаг E: Получение ссылки на uniform перемнные во фрагментном шейдере
         this.pixelColorLocation = gl.getUniformLocation(this.compiledShader, "uPixelColor");
+        this.modelTransformLocation = gl.getUniformLocation(this.compiledShader, "uModelTransform");
     }
 
-    activate(pixelColor) {
+    activate(pixelColor, transformMatrix) {
         // Шаг А: Доступ к WebGL контексту
         let gl = glContext.get();
     
@@ -52,8 +54,9 @@ class SimpleShader {
         );
         gl.enableVertexAttribArray(this.vertexPositionLocation);
 
-        // Загрузка цвета во фрагментный шейдер
+        // Загрузка uniform переменных во фрагментный шейдер
         gl.uniform4fv(this.pixelColorLocation, pixelColor);
+        gl.uniformMatrix4fv(this.modelTransformLocation, false, transformMatrix);
     }
 }
 

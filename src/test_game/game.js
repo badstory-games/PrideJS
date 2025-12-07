@@ -6,6 +6,12 @@ import * as glContext from "../engine/core/gl_context.js";
 class Game {
     constructor(canvasID) {
         pride.init(canvasID);
+
+        this.camera = new pride.Camera(
+            glMatrix.vec2.fromValues(20, 60),
+            20,
+            [20, 40, 600, 300]
+        );
         
         this.blue = new pride.Renderable();
         this.blue.setColor([0.25, 0.25, 0.95, 1]);
@@ -23,62 +29,29 @@ class Game {
 
         pride.clearCanvas([0.9, 0.9, 0.9, 1]);
         
-
-
-        let gl = glContext.get();
-        gl.viewport(
-            20,
-            40,
-            600,
-            300
-        );
-        gl.scissor(
-            20,
-            40,
-            600,
-            300
-        );
-
-        gl.enable(gl.SCISSOR_TEST);
-        pride.clearCanvas([0.8, 0.8, 0.8, 1.0]);
-        gl.disable(gl.SCISSOR_TEST);
-
-        let cameraCenter = glMatrix.vec2.fromValues(20, 60);
-        let worldCoordinatesSize = glMatrix.vec2.fromValues(20, 10);
-        let cameraMatrix = glMatrix.mat4.create();
-
-        glMatrix.mat4.scale(
-            cameraMatrix,
-            glMatrix.mat4.create(),
-            glMatrix.vec3.fromValues(2.0 / worldCoordinatesSize[0], 2.0 / worldCoordinatesSize[1], 1.0)
-        );
-        glMatrix.mat4.translate(
-            cameraMatrix,
-            cameraMatrix,
-            glMatrix.vec3.fromValues(-cameraCenter[0], -cameraCenter[1], 0)
-        );
+        this.camera.adjustProjection();
 
 
         this.blue.getTransform().setPosition(20, 60);
         this.blue.getTransform().setRotationRadians(0.2);
         this.blue.getTransform().setSize(5, 5);
-        this.blue.draw(cameraMatrix);
+        this.blue.draw(this.camera);
 
         this.red.getTransform().setPosition(20, 60);
         this.red.getTransform().setSize(2, 2);
-        this.red.draw(cameraMatrix);
+        this.red.draw(this.camera);
         
         this.tl.getTransform().setPosition(10, 65);
-        this.tl.draw(cameraMatrix);
+        this.tl.draw(this.camera);
 
         this.tr.getTransform().setPosition(30, 65);
-        this.tr.draw(cameraMatrix);
+        this.tr.draw(this.camera);
 
         this.bl.getTransform().setPosition(10, 55);
-        this.bl.draw(cameraMatrix);
+        this.bl.draw(this.camera);
 
         this.br.getTransform().setPosition(30, 55);
-        this.br.draw(cameraMatrix);
+        this.br.draw(this.camera);
     }
 }
 

@@ -1,5 +1,8 @@
 "use strict";
 
+import * as text from "../resources/text.js";
+import * as map from "./resource_map.js";
+
 import SimpleShader from "../simple_shader.js";
 
 
@@ -20,7 +23,19 @@ function createShaders() {
 }
 
 function init() {
-    createShaders();
+    let loadPromise = new Promise(
+        async function(resolve) {
+            await Promise.all([
+                text.load(simpleVS),
+                text.load(simpleFS)
+            ]);
+            resolve();
+        }
+    ).then(
+        function resolve() { createShaders(); }
+    );
+
+    map.pushPromise(loadPromise);
 }
 
 

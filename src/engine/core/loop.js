@@ -1,4 +1,5 @@
 import * as input from "../input.js";
+import * as map from "./resource_map.js";
 
 "use strict";
 
@@ -33,10 +34,12 @@ function loopOnce() {
     }
 }
 
-function start(scene) {
+async function start(scene) {
     if (loopRunning) {
         throw new Error("Цикл уже запущен!");
     }
+
+    await map.waitOnPromises();
 
     currentScene = scene;
     currentScene.init();

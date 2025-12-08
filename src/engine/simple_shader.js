@@ -1,5 +1,6 @@
 import * as glContext from "./core/gl_context.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
+import * as text from "./resources/text.js";
 
 
 
@@ -14,8 +15,8 @@ class SimpleShader {
         let gl = glContext.get();
         
         // Шаг А: Загрузка и компиляция вершинного и фрагментного шейдера
-        this.vertexShader = loadAndCompileShader(vertexShaderPath, gl.VERTEX_SHADER);
-        this.fragmentShader = loadAndCompileShader(fragmentShaderPath, gl.FRAGMENT_SHADER)
+        this.vertexShader = compileShader(vertexShaderPath, gl.VERTEX_SHADER);
+        this.fragmentShader = compileShader(fragmentShaderPath, gl.FRAGMENT_SHADER)
         
         // Шаг B: Создание шейдеров и объединение их в программу.
         this.compiledShader = gl.createProgram();
@@ -63,26 +64,12 @@ class SimpleShader {
     }
 }
 
-function loadAndCompileShader(filePath, type) {
-    let xmlRequest;
+function compileShader(filePath, type) {
     let shaderSource = null;
     let shader = null;
     let gl = glContext.get();
-
-    // Шаг A: Запрос текста из указанного расположения файла
-    xmlRequest = new XMLHttpRequest();
-    xmlRequest.open("GET", filePath, false);
-    try {
-        xmlRequest.send();
-    } catch (error) {
-        throw new Error("Ошибка загрузки шейдера: "
-            + filePath
-            + " [Подсказка: Вы не можете просто запустить проект в браузере. "
-            + "Проект должен находиться на сервере или запускаться с локального web-сервера.]"
-        );
-    }
     
-    shaderSource = xmlRequest.responseText;
+    shaderSource = text.get(filePath);
 
     if (shaderSource === null) {
         throw new Error("Ошибка загрузки файла: " + filePath);

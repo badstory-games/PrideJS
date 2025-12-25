@@ -1,7 +1,9 @@
+import * as math from "../lib/gl-matrix/index.js"
+
 class Transform {
     constructor() {
-        this.position = glMatrix.vec2.fromValues(0, 0);
-        this.size = glMatrix.vec2.fromValues(1, 1);
+        this.position = math.vec2.fromValues(0, 0);
+        this.size = math.vec2.fromValues(1, 1);
         this.rotation = 0.0; // В радианах
     }
 
@@ -66,27 +68,27 @@ class Transform {
 
 
     getMatrix() {
-        let matrix = glMatrix.mat4.create();
+        let matrix = math.mat4.create();
 
         // Шаг А: Вычисление перемещения, поскольку движок в 2D, ось z всегда равно 0.0
-        glMatrix.mat4.translate(
+        math.mat4.translate(
             matrix,
             matrix,
-            glMatrix.vec3.fromValues(this.getPositionX(), this.getPositionY(), 0.0)
+            math.vec3.fromValues(this.getPositionX(), this.getPositionY(), 0.0)
         );
 
         // Шаг В: Объединение с вращением
-        glMatrix.mat4.rotateZ(
+        math.mat4.rotateZ(
             matrix,
             matrix,
             this.getRotationRadians()
         );
 
         // Шаг C: Объединение с масштабированием
-        glMatrix.mat4.scale(
+        math.mat4.scale(
             matrix,
             matrix,
-            glMatrix.vec3.fromValues(this.getWidth(), this.getHeight(), 1.0)
+            math.vec3.fromValues(this.getWidth(), this.getHeight(), 1.0)
         );
 
         return matrix;

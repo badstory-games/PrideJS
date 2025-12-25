@@ -15,7 +15,7 @@ function init(canvasID) {
     canvas = document.getElementById(canvasID);
 
     if (canvas === null) {
-        throw new Error("Инициализация движка [" + canvasID + "] Идентификатор холста не найден.");
+        throw new Error("Инициализация движка: [" + canvasID + "] Идентификатор холста не найден.");
     }
     
     // Получение стандартного или экспериментального WebGL и привязка его к области холста

@@ -1,11 +1,12 @@
 import * as glContext from "./core/gl_context.js";
+import * as math from "../lib/gl-matrix/index.js"
 
 class Camera {
     constructor(center, width, viewportArray) {
         this.center = center;
         this.width = width;
         this.viewport = viewportArray;
-        this.cameraMatrix = glMatrix.mat4.create();
+        this.cameraMatrix = math.mat4.create();
         this.backgroundColor = [0.8, 0.8, 0.8, 1]
     }
 
@@ -60,16 +61,16 @@ class Camera {
 
         let center = this.getCenter();
 
-        glMatrix.mat4.scale(
+        math.mat4.scale(
             this.cameraMatrix,
-            glMatrix.mat4.create(),
-            glMatrix.vec3.fromValues(2.0 / this.getWidth(), 2.0 / this.getHeight(), 1.0)
+            math.mat4.create(),
+            math.vec3.fromValues(2.0 / this.getWidth(), 2.0 / this.getHeight(), 1.0)
         );
 
-        glMatrix.mat4.translate(
+        math.mat4.translate(
             this.cameraMatrix,
             this.cameraMatrix,
-            glMatrix.vec3.fromValues(-center[0], -center[1], 0)
+            math.vec3.fromValues(-center[0], -center[1], 0)
         );
     }
 

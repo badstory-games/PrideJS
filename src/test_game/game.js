@@ -15,7 +15,7 @@ class Game {
 
     init() {
         this.camera = new pride.Camera(
-            glMatrix.vec2.fromValues(20, 60),
+            pride.math.vec2.fromValues(20, 60),
             20,
             [20, 40, 600, 300]
         );

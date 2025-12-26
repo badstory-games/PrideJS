@@ -8,20 +8,29 @@ class GameScene extends pride.Scene {
         this.camera = null;
         this.hero = null;
         this.support = null;
+
+        this.sound = "assets/sounds/sfx.mp3";
+        this.backgroundMusic = "assets/music/ambient.mp3";
     }
 
 
 
     load() {
-    
+        pride.audio.load(this.sound);
+        pride.audio.load(this.backgroundMusic);
     }
         
 
     unload() {
-        
+        pride.audio.stopBackgroundMusic();
+
+        pride.audio.unload(this.sound);
+        pride.audio.unload(this.backgroundMusic);
     }
 
     init() {
+        pride.audio.playBackgroundMusic(this.backgroundMusic, 1.0);
+        
         this.camera = new pride.Camera(
             pride.math.vec2.fromValues(20, 60),
             20,
@@ -60,6 +69,9 @@ class GameScene extends pride.Scene {
             if (transform.getPositionX() > 30) {
                 transform.setPositionX(12);
             }
+
+            pride.audio.playSound(this.sound, 0.5);
+            pride.audio.increaseBackgroundMusicVolume(0.05);
         }
 
         if (pride.input.isKeyPressed(pride.input.keys.A)) {
@@ -68,6 +80,9 @@ class GameScene extends pride.Scene {
             if (transform.getPositionX() < 11) {
                 this.next();
             }
+
+            pride.audio.playSound(this.sound, 1.5);
+            pride.audio.increaseBackgroundMusicVolume(-0.05);
         }
 
         if (pride.input.isKeyPressed(pride.input.keys.Q)) {

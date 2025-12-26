@@ -7,6 +7,7 @@ import * as input from "./input.js";
 import * as text from "./resources/text.js";
 import * as xml from "./resources/xml.js";
 import * as loop from "./core/loop.js";
+import * as audio from "./resources/audio.js";
 
 import Camera from "./camera.js";
 import Transform from "./transform.js";
@@ -21,6 +22,7 @@ function init(canvasID) {
     vertexBuffer.init();
     shaders.init();
     input.init();
+    audio.init();
 }
 
 function cleanUp() {
@@ -29,6 +31,7 @@ function cleanUp() {
     shaders.cleanUp();
     vertexBuffer.cleanUp();
     glContext.cleanUp();
+    audio.cleanUp();
 }
 
 function clearCanvas(color) {
@@ -40,7 +43,7 @@ function clearCanvas(color) {
 
 
 export default {
-    math, input, text, xml,
+    math, input, text, xml, audio,
     
     // Классы
     Camera, Transform, Renderable, SceneFileParser, Scene,

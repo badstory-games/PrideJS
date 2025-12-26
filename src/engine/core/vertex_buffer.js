@@ -31,6 +31,13 @@ function init() {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticesOfSquare), gl.STATIC_DRAW);
 }
 
+function cleanUp() {
+    if (vertexBuffer !== null) {
+        glContext.get().deleteBuffer(vertexBuffer);
+        vertexBuffer == null;
+    }
+}
 
 
-export { get, init }
+
+export { get, init, cleanUp }

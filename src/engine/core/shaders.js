@@ -38,6 +38,12 @@ function init() {
     map.pushPromise(loadPromise);
 }
 
+function cleanUp() {
+    colorShader.cleanUp();
+    text.unload(simpleVS);
+    text.unload(simpleFS);
+}
 
 
-export { init, getColorShader }
+
+export { init, cleanUp, getColorShader }

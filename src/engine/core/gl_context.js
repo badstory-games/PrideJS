@@ -27,6 +27,18 @@ function init(canvasID) {
     }
 }
 
+function cleanUp() {
+    if ((gl == null) || (canvas == null)) {
+        throw new Error("Очистка движка: система не инициализирована.")
+    }
+
+    gl = null;
+    canvas.style.position = "fixed";
+    canvas.style.backgroundColor = "rgba(200, 200, 200, 0.5)";
+    canvas = null;
+    document.body.innerHTML += "<br><br><h1>Конец игры</h1><h1> Остановка системы</h1>"
+}
 
 
-export { get, init }
+
+export { get, init, cleanUp }

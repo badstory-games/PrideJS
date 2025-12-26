@@ -6,11 +6,13 @@ import * as shaders from "./core/shaders.js";
 import * as input from "./input.js";
 import * as text from "./resources/text.js";
 import * as xml from "./resources/xml.js";
+import * as loop from "./core/loop.js";
 
 import Camera from "./camera.js";
 import Transform from "./transform.js";
 import Renderable from "./renderable.js";
 import SceneFileParser from "./utils/scene_file_parser.js";
+import Scene from "./scene.js";
 
 
 
@@ -19,6 +21,14 @@ function init(canvasID) {
     vertexBuffer.init();
     shaders.init();
     input.init();
+}
+
+function cleanUp() {
+    loop.cleanUp();
+    input.cleanUp();
+    shaders.cleanUp();
+    vertexBuffer.cleanUp();
+    glContext.cleanUp();
 }
 
 function clearCanvas(color) {
@@ -33,8 +43,8 @@ export default {
     math, input, text, xml,
     
     // Классы
-    Camera, Transform, Renderable, SceneFileParser,
+    Camera, Transform, Renderable, SceneFileParser, Scene,
 
     // Функции
-    init, clearCanvas
+    init, cleanUp, clearCanvas
 }

@@ -88,9 +88,13 @@ function isKeyPressed(keyCode) { return keysPressed[keyCode] }
 
 function isKeyJustPressed(keyCode) { return keysJustPressed[keyCode] }
 
+function cleanUp() {
+
+}
+
 
 
 export {
-    keys, init, update,
+    keys, init, update, cleanUp,
     isKeyPressed, isKeyJustPressed
 }

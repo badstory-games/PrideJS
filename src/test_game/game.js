@@ -1,72 +1,94 @@
 import pride from "../engine/pride.js";
-import * as loop from "../engine/core/loop.js";
+import SecondScene from "./second_scene.js";
 
-
-
-class Game {
+class GameScene extends pride.Scene {
     constructor() {
-        this.sceneFile = "assets/scene.xml";
-        this.squareSet = [];
+        super();
 
         this.camera = null;
+        this.hero = null;
+        this.support = null;
     }
 
 
 
     load() {
-        pride.xml.load(this.sceneFile);
+    
     }
+        
 
     unload() {
-        pride.xml.unload(this.sceneFile);
+        
     }
 
     init() {
-        let sceneParser = new pride.SceneFileParser(pride.xml.get(this.sceneFile));
-        
-        this.camera = sceneParser.parseCamera();
-        this.squareSet = sceneParser.parseSquares();
+        this.camera = new pride.Camera(
+            pride.math.vec2.fromValues(20, 60),
+            20,
+            [20, 40, 600, 300]
+        );
+        this.camera.setBackgroundColor([0.8, 0.8, 0.9, 1.0]);
+
+        this.support = new pride.Renderable();
+        this.support.setColor([0.8, 0.2, 0.2, 1.0]);
+        this.support.getTransform().setPosition(20, 60);
+        this.support.getTransform().setSize(5, 5);
+
+        this.hero = new pride.Renderable();
+        this.hero.setColor([0.0, 0.0, 1.0, 1.0]);
+        this.hero.getTransform().setPosition(20, 60);
+        this.hero.getTransform().setSize(2, 3);
     }
 
     draw() {
-        pride.clearCanvas([0.9, 0.9, 0.9, 1]);
+        pride.clearCanvas([0.9, 0.9, 0.9, 1.0]);
+
         this.camera.adjustProjection();
-        
-        let i;
-        for(i = 0; i < this.squareSet.length; i++) {
-            this.squareSet[i].draw(this.camera);
-        }
+
+        this.support.draw(this.camera);
+        this.hero.draw(this.camera);
     }
 
     update() {
-        let whiteTransform = this.squareSet[0].getTransform();
         let delta = 0.1;
-        
+
+        let transform = this.hero.getTransform();
+
         if (pride.input.isKeyPressed(pride.input.keys.D)) {
-            whiteTransform.increasePositionX(delta);
-        }
-        else if (pride.input.isKeyPressed(pride.input.keys.A)) {
-            whiteTransform.increasePositionX(-delta);
-        }
-        if (pride.input.isKeyPressed(pride.input.keys.W)) {
-            whiteTransform.increasePositionY(delta);
-        }
-        else if (pride.input.isKeyPressed(pride.input.keys.S)) {
-            whiteTransform.increasePositionY(-delta);
+            transform.increasePositionX(delta);
+
+            if (transform.getPositionX() > 30) {
+                transform.setPositionX(12);
+            }
         }
 
-        let redTransform = this.squareSet[1].getTransform();
-        if (redTransform.getWidth() > 5) {
-            redTransform.setSize(2, 2);
+        if (pride.input.isKeyPressed(pride.input.keys.A)) {
+            transform.increasePositionX(-delta);
+
+            if (transform.getPositionX() < 11) {
+                this.next();
+            }
         }
-        redTransform.increaseSize(0.05);
+
+        if (pride.input.isKeyPressed(pride.input.keys.Q)) {
+            this.stop();
+        }
+    }
+
+    next() {
+        super.next();
+
+        let secondScene = new SecondScene();
+        secondScene.start();
     }
 }
+
+export default GameScene;
 
 
 
 window.onload = function() {
     pride.init("pride-canvas");
-    let game = new Game();
-    loop.start(game)
+    let gameScene = new GameScene();
+    gameScene.start();
 }

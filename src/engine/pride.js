@@ -1,4 +1,4 @@
-import * as math from "../lib/gl-matrix/index.js";
+import * as math from "./math/math.js";
 
 import * as glContext from "./core/gl_context.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";

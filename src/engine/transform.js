@@ -1,4 +1,4 @@
-import * as math from "../lib/gl-matrix/index.js";
+import * as math from "./math/math.js";
 
 class Transform {
     constructor() {

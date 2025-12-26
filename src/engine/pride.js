@@ -1,14 +1,16 @@
-import * as math from "../lib/gl-matrix/index.js"
+import * as math from "../lib/gl-matrix/index.js";
 
 import * as glContext from "./core/gl_context.js";
 import * as vertexBuffer from "./core/vertex_buffer.js";
 import * as shaders from "./core/shaders.js";
 import * as input from "./input.js";
 import * as text from "./resources/text.js";
+import * as xml from "./resources/xml.js";
 
 import Camera from "./camera.js";
 import Transform from "./transform.js";
 import Renderable from "./renderable.js";
+import SceneFileParser from "./utils/scene_file_parser.js";
 
 
 
@@ -28,10 +30,10 @@ function clearCanvas(color) {
 
 
 export default {
-    math, input, text,
+    math, input, text, xml,
     
     // Классы
-    Camera, Transform, Renderable,
+    Camera, Transform, Renderable, SceneFileParser,
 
     // Функции
     init, clearCanvas

@@ -39,9 +39,12 @@ async function start(scene) {
         throw new Error("Цикл уже запущен!");
     }
 
+    currentScene = scene;
+    currentScene.load();
+
     await map.waitOnPromises();
 
-    currentScene = scene;
+    
     currentScene.init();
 
     prevTime = performance.now();

@@ -1,5 +1,5 @@
 import * as glContext from "./core/gl_context.js";
-import * as math from "../lib/gl-matrix/index.js"
+import * as math from "../lib/gl-matrix/index.js";
 
 class Camera {
     constructor(center, width, viewportArray) {

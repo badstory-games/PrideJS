@@ -5,44 +5,41 @@ import * as loop from "../engine/core/loop.js";
 
 class Game {
     constructor() {
+        this.sceneFile = "assets/scene.xml";
+        this.squareSet = [];
+
         this.camera = null;
-        
-        this.white = null;
-        this.red = null;
     }
 
 
 
+    load() {
+        pride.xml.load(this.sceneFile);
+    }
+
+    unload() {
+        pride.xml.unload(this.sceneFile);
+    }
+
     init() {
-        this.camera = new pride.Camera(
-            pride.math.vec2.fromValues(20, 60),
-            20,
-            [20, 40, 600, 300]
-        );
-        this.camera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
-
-        this.white = new pride.Renderable();
-        this.white.setColor([1, 1, 1, 1]);
-        this.white.getTransform().setPosition(20, 60);
-        this.white.getTransform().setRotationRadians(0.2);
-        this.white.getTransform().setSize(5, 5);
-
-        this.red = new pride.Renderable();
-        this.red.setColor([1, 0, 0, 1]);
-        this.red.getTransform().setPosition(20, 60);
-        this.red.getTransform().setSize(2, 2);
+        let sceneParser = new pride.SceneFileParser(pride.xml.get(this.sceneFile));
+        
+        this.camera = sceneParser.parseCamera();
+        this.squareSet = sceneParser.parseSquares();
     }
 
     draw() {
         pride.clearCanvas([0.9, 0.9, 0.9, 1]);
         this.camera.adjustProjection();
-
-        this.white.draw(this.camera);
-        this.red.draw(this.camera);
+        
+        let i;
+        for(i = 0; i < this.squareSet.length; i++) {
+            this.squareSet[i].draw(this.camera);
+        }
     }
 
     update() {
-        let whiteTransform = this.white.getTransform();
+        let whiteTransform = this.squareSet[0].getTransform();
         let delta = 0.1;
         
         if (pride.input.isKeyPressed(pride.input.keys.D)) {
@@ -58,7 +55,7 @@ class Game {
             whiteTransform.increasePositionY(-delta);
         }
 
-        let redTransform = this.red.getTransform();
+        let redTransform = this.squareSet[1].getTransform();
         if (redTransform.getWidth() > 5) {
             redTransform.setSize(2, 2);
         }

@@ -1,3 +1,5 @@
+"use strict";
+
 import * as math from "./math/math.js";
 
 class Transform {

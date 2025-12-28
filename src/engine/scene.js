@@ -1,3 +1,5 @@
+"use strict";
+
 import * as loop from "./core/loop.js";
 import pride from "./pride.js";
 

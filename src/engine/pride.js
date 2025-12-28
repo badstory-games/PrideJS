@@ -16,6 +16,8 @@ import Camera from "./camera.js";
 import Transform from "./transform.js";
 import Renderable from "./renderables/renderable.js";
 import TextureRenderable from "./renderables/texture_renderable.js";
+import SpriteRenderable from "./renderables/sprite_renderable.js";
+import { TextureCoordinatesArrayIndex } from "./renderables/sprite_renderable.js";
 import SceneFileParser from "./utils/scene_file_parser.js";
 import Scene from "./scene.js";
 
@@ -51,8 +53,10 @@ export default {
     math, input, text, xml, audio, texture,
     
     // Классы
-    Camera, Transform, Renderable, TextureRenderable,
+    Camera, Transform, Renderable, TextureRenderable, SpriteRenderable,
     SceneFileParser, Scene,
+
+    TextureCoordinatesArrayIndex,
 
     // Функции
     init, cleanUp, clearCanvas

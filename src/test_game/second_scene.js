@@ -1,3 +1,5 @@
+"use strict";
+
 import pride from "../engine/pride.js";
 import GameScene from "./game.js";
 

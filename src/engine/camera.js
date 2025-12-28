@@ -1,3 +1,5 @@
+"use strict";
+
 import * as glContext from "./core/gl_context.js";
 import * as math from "./math/math.js";
 

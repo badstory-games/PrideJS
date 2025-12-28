@@ -1,7 +1,7 @@
+"use strict";
+
 import * as input from "../input.js";
 import * as map from "./resource_map.js";
-
-"use strict";
 
 const FPS = 60;
 const MPF = 1000 / FPS;

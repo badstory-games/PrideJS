@@ -1,3 +1,5 @@
+"use strict";
+
 import pride from "../engine/pride.js";
 import SecondScene from "./second_scene.js";
 
@@ -6,53 +8,62 @@ class GameScene extends pride.Scene {
         super();
 
         this.camera = null;
+
+        this.portal = null;
+        this.collector = null;
+        this.font = null;
+        this.minion = null;
         this.hero = null;
-        this.support = null;
 
-        // this.sound = "assets/sounds/sfx.mp3";
-        // this.backgroundMusic = "assets/music/ambient.mp3";
-
-        this.icon = "assets/textures/icon.png";
-        this.icon2 = "assets/textures/icon2.png";
+        this.fontTexture = "assets/textures/consolas-72.png";
+        this.minionTexture = "assets/textures/minion_sprite.png";
     }
 
 
 
     load() {
-        // pride.audio.load(this.sound);
-        // pride.audio.load(this.backgroundMusic);
-        pride.texture.load(this.icon);
-        pride.texture.load(this.icon2);
+        pride.texture.load(this.fontTexture);
+        pride.texture.load(this.minionTexture);
     }
         
 
     unload() {
-        // pride.audio.stopBackgroundMusic();
-
-        // pride.audio.unload(this.sound);
-        // pride.audio.unload(this.backgroundMusic);
-        pride.texture.unload(this.icon);
-        pride.texture.unload(this.icon2);
+        pride.texture.unload(this.fontTexture);
+        pride.texture.unload(this.minionTexture);
     }
 
     init() {
-        // pride.audio.playBackgroundMusic(this.backgroundMusic, 1.0);
-        
         this.camera = new pride.Camera(
             pride.math.vec2.fromValues(20, 60),
             20,
             [20, 40, 600, 300]
         );
-        this.camera.setBackgroundColor([0.8, 0.8, 0.9, 1.0]);
+        this.camera.setBackgroundColor([0.8, 0.8, 0.8, 1.0]);
 
-        this.support = new pride.TextureRenderable(this.icon);
-        this.support.setColor([0.8, 0.2, 0.2, 0.5]);
-        this.support.getTransform().setPosition(20, 60);
-        this.support.getTransform().setSize(5, 5);
 
-        this.hero = new pride.TextureRenderable(this.icon2);
+
+        this.portal = new pride.SpriteRenderable(this.minionTexture);
+        this.portal.getTransform().setPosition(25, 60);
+        this.portal.getTransform().setSize(3, 3);
+        this.portal.setSpriteRegion(130, 0, 310, 180);
+
+        this.collector = new pride.SpriteRenderable(this.minionTexture);
+        this.collector.getTransform().setPosition(15, 60);
+        this.collector.getTransform().setSize(3, 3);
+        this.collector.setSpriteRegionUVCoordinates(0.308, 0, 0.483, 0.352);
+
+        this.font = new pride.SpriteRenderable(this.fontTexture);
+        this.font.getTransform().setPosition(13, 62);
+        this.font.getTransform().setSize(4, 4);
+
+        this.minion = new pride.SpriteRenderable(this.minionTexture);
+        this.minion.getTransform().setPosition(26, 56);
+        this.minion.getTransform().setSize(5, 2.5);
+
+        this.hero = new pride.SpriteRenderable(this.minionTexture);
         this.hero.getTransform().setPosition(20, 60);
-        this.hero.getTransform().setSize(2, 2);
+        this.hero.getTransform().setSize(2, 3);
+        this.hero.setSpriteRegion(0, 0, 120, 180);
     }
 
     draw() {
@@ -60,7 +71,10 @@ class GameScene extends pride.Scene {
 
         this.camera.adjustProjection();
 
-        this.support.draw(this.camera);
+        this.portal.draw(this.camera);
+        this.collector.draw(this.camera);
+        this.font.draw(this.camera);
+        this.minion.draw(this.camera);
         this.hero.draw(this.camera);
     }
 
@@ -75,20 +89,20 @@ class GameScene extends pride.Scene {
             if (transform.getPositionX() > 30) {
                 transform.setPositionX(12);
             }
-
-            // pride.audio.playSound(this.sound, 0.5);
-            // pride.audio.increaseBackgroundMusicVolume(0.05);
         }
-
-        if (pride.input.isKeyPressed(pride.input.keys.A)) {
+        else if (pride.input.isKeyPressed(pride.input.keys.A)) {
             transform.increasePositionX(-delta);
 
             if (transform.getPositionX() < 11) {
                 this.next();
             }
+        }
 
-            // pride.audio.playSound(this.sound, 1.5);
-            // pride.audio.increaseBackgroundMusicVolume(-0.05);
+        if (pride.input.isKeyPressed(pride.input.keys.W)) {
+            transform.increasePositionY(delta);
+        }
+        else if (pride.input.isKeyPressed(pride.input.keys.S)) {
+            transform.increasePositionY(-delta);
         }
 
         if (pride.input.isKeyPressed(pride.input.keys.Q)) {

@@ -5,6 +5,7 @@ import * as map from "./resource_map.js";
 
 import SimpleShader from "../shaders/simple_shader.js";
 import TextureShader from "../shaders/texture_shader.js";
+import SpriteShader from "../shaders/sprite_shader.js";
 
 
 
@@ -18,17 +19,22 @@ let textureVS = "src/engine/glsl/texture_vs.glsl";
 let textureFS = "src/engine/glsl/texture_fs.glsl";
 let textureShader = null;
 
+let spriteShader = null;
+
 
 
 function getColorShader() { return colorShader; }
 
 function getTextureShader() { return textureShader; }
 
+function getSpriteShader() { return spriteShader; }
+
 
 
 function createShaders() {
     colorShader = new SimpleShader(simpleVS, simpleFS);
     textureShader = new TextureShader(textureVS, textureFS);
+    spriteShader = new SpriteShader(textureVS, textureFS);
 }
 
 function init() {
@@ -52,6 +58,7 @@ function init() {
 function cleanUp() {
     colorShader.cleanUp();
     textureShader.cleanUp();
+    spriteShader.cleanUp();
 
     text.unload(simpleVS);
     text.unload(simpleFS);
@@ -61,4 +68,4 @@ function cleanUp() {
 
 
 
-export { init, cleanUp, getColorShader, getTextureShader }
+export { init, cleanUp, getColorShader, getTextureShader, getSpriteShader };

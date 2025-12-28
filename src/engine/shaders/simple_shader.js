@@ -1,3 +1,5 @@
+"use strict";
+
 import * as glContext from "../core/gl_context.js";
 import * as vertexBuffer from "../core/vertex_buffer.js";
 import * as text from "../resources/text.js";

@@ -56,9 +56,12 @@ class GameScene extends pride.Scene {
         this.font.getTransform().setPosition(13, 62);
         this.font.getTransform().setSize(4, 4);
 
-        this.minion = new pride.SpriteRenderable(this.minionTexture);
-        this.minion.getTransform().setPosition(26, 56);
-        this.minion.getTransform().setSize(5, 2.5);
+        this.minion = new pride.AnimatedSpriteRenderable(this.minionTexture);
+        this.minion.getTransform().setPosition(26, 56.5);
+        this.minion.getTransform().setSize(4, 3.2);
+        this.minion.setSpriteSequence(0, 512, 204, 164, 5, 0);
+        this.minion.setAnimationType(pride.AnimationType.RIGHT);
+        this.minion.setAnimationInterval(5);
 
         this.hero = new pride.SpriteRenderable(this.minionTexture);
         this.hero.getTransform().setPosition(20, 60);
@@ -79,6 +82,8 @@ class GameScene extends pride.Scene {
     }
 
     update() {
+        this.minion.updateAnimation();
+        
         let delta = 0.1;
 
         let transform = this.hero.getTransform();

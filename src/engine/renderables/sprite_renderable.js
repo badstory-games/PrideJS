@@ -16,19 +16,19 @@ class SpriteRenderable extends TextureRenderable {
         super(path);
         super._setShader(shaders.getSpriteShader());
 
-        this.elementX = 0.0;
-        this.elementY = 0.0;
-        this.elementWidth = 1.0;
-        this.elementHeight = 1.0;
+        this.elementLeft = 0.0;
+        this.elementBottom = 0.0;
+        this.elementRight = 1.0;
+        this.elementTop = 1.0;
     }
 
 
 
     setSpriteRegionUVCoordinates(left, bottom, right, top) {
-        this.elementX = left;
-        this.elementY = bottom;
-        this.elementWidth = right;
-        this.elementHeight = top;
+        this.elementLeft = left;
+        this.elementBottom = bottom;
+        this.elementRight = right;
+        this.elementTop = top;
     }
 
     setSpriteRegion(x, y, width, height) {
@@ -36,18 +36,18 @@ class SpriteRenderable extends TextureRenderable {
         let imageWidth = texInfo.width;
         let imageHeight = texInfo.height;
 
-        this.elementX = x / imageWidth;
-        this.elementY = y / imageHeight;
-        this.elementWidth = width / imageWidth;
-        this.elementHeight = height / imageHeight;
+        this.elementLeft = x / imageWidth;
+        this.elementBottom = y / imageHeight;
+        this.elementRight = width / imageWidth;
+        this.elementTop = height / imageHeight;
     }
 
     getElementUVCoordinatesArray() {
         return [
-            this.elementWidth,  this.elementHeight,
-            this.elementX,   this.elementHeight,
-            this.elementWidth,  this.elementY,
-            this.elementX,   this.elementY
+            this.elementRight,  this.elementTop,
+            this.elementLeft,   this.elementTop,
+            this.elementRight,  this.elementBottom,
+            this.elementLeft,   this.elementBottom
         ];
     }
 

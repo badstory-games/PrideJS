@@ -3,7 +3,7 @@ import * as math from "./math/math.js";
 class Transform {
     constructor() {
         this.position = math.vec2.fromValues(0, 0);
-        this.size = math.vec2.fromValues(1, 1);
+        this.size = math.vec2.fromValues(16, 16);
         this.rotation = 0.0; // В радианах
     }
 

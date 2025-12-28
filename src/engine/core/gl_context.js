@@ -20,11 +20,16 @@ function init(canvasID) {
     
     // Получение стандартного или экспериментального WebGL и привязка его к области холста
     // Сохранение результата в переменной экземпляра "gl"
-    gl = canvas.getContext("webgl2") || canvas.getContext("experimental-webgl2");
+    gl = canvas.getContext("webgl2", {alpha: false});
 
     if (gl === null) {
         document.getElementById("error-output").innerHTML = "WebGL 2 не поддерживается!"
     }
+
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.enable(gl.BLEND);
+
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 }
 
 function cleanUp() {

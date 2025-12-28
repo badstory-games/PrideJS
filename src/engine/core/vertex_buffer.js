@@ -12,9 +12,20 @@ let verticesOfSquare = [
     -0.5, -0.5, 0.0
 ];
 
+let textureCoordinatesBuffer = null;
+let textureCoordinates = [
+    1.0, 1.0,
+    0.0, 1.0,
+    1.0, 0.0,
+    0.0, 0.0
+];
 
 
-function get() { return vertexBuffer; }
+
+function getVertexBuffer() { return vertexBuffer; }
+
+function getTextureCoordinatesBuffer() { return textureCoordinatesBuffer; }
+
 
 
 
@@ -29,15 +40,28 @@ function init() {
 
     // Шаг C: Загрузка вершин квадрата (verticesOfSquare) в буфер вершин (vertexBuffer)
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticesOfSquare), gl.STATIC_DRAW);
+
+
+
+    textureCoordinatesBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordinatesBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
 }
 
 function cleanUp() {
+    let gl = glContext.get();
+    
     if (vertexBuffer !== null) {
-        glContext.get().deleteBuffer(vertexBuffer);
+        gl.deleteBuffer(vertexBuffer);
         vertexBuffer == null;
+    }
+
+    if (textureCoordinatesBuffer !== null) {
+        gl.deleteBuffer(textureCoordinatesBuffer);
+        textureCoordinatesBuffer == null;
     }
 }
 
 
 
-export { get, init, cleanUp }
+export { getVertexBuffer, getTextureCoordinatesBuffer, init, cleanUp }

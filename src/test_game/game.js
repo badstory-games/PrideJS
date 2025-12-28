@@ -9,27 +9,34 @@ class GameScene extends pride.Scene {
         this.hero = null;
         this.support = null;
 
-        this.sound = "assets/sounds/sfx.mp3";
-        this.backgroundMusic = "assets/music/ambient.mp3";
+        // this.sound = "assets/sounds/sfx.mp3";
+        // this.backgroundMusic = "assets/music/ambient.mp3";
+
+        this.icon = "assets/textures/icon.png";
+        this.icon2 = "assets/textures/icon2.png";
     }
 
 
 
     load() {
-        pride.audio.load(this.sound);
-        pride.audio.load(this.backgroundMusic);
+        // pride.audio.load(this.sound);
+        // pride.audio.load(this.backgroundMusic);
+        pride.texture.load(this.icon);
+        pride.texture.load(this.icon2);
     }
         
 
     unload() {
-        pride.audio.stopBackgroundMusic();
+        // pride.audio.stopBackgroundMusic();
 
-        pride.audio.unload(this.sound);
-        pride.audio.unload(this.backgroundMusic);
+        // pride.audio.unload(this.sound);
+        // pride.audio.unload(this.backgroundMusic);
+        pride.texture.unload(this.icon);
+        pride.texture.unload(this.icon2);
     }
 
     init() {
-        pride.audio.playBackgroundMusic(this.backgroundMusic, 1.0);
+        // pride.audio.playBackgroundMusic(this.backgroundMusic, 1.0);
         
         this.camera = new pride.Camera(
             pride.math.vec2.fromValues(20, 60),
@@ -38,15 +45,14 @@ class GameScene extends pride.Scene {
         );
         this.camera.setBackgroundColor([0.8, 0.8, 0.9, 1.0]);
 
-        this.support = new pride.Renderable();
-        this.support.setColor([0.8, 0.2, 0.2, 1.0]);
+        this.support = new pride.TextureRenderable(this.icon);
+        this.support.setColor([0.8, 0.2, 0.2, 0.5]);
         this.support.getTransform().setPosition(20, 60);
         this.support.getTransform().setSize(5, 5);
 
-        this.hero = new pride.Renderable();
-        this.hero.setColor([0.0, 0.0, 1.0, 1.0]);
+        this.hero = new pride.TextureRenderable(this.icon2);
         this.hero.getTransform().setPosition(20, 60);
-        this.hero.getTransform().setSize(2, 3);
+        this.hero.getTransform().setSize(2, 2);
     }
 
     draw() {
@@ -70,8 +76,8 @@ class GameScene extends pride.Scene {
                 transform.setPositionX(12);
             }
 
-            pride.audio.playSound(this.sound, 0.5);
-            pride.audio.increaseBackgroundMusicVolume(0.05);
+            // pride.audio.playSound(this.sound, 0.5);
+            // pride.audio.increaseBackgroundMusicVolume(0.05);
         }
 
         if (pride.input.isKeyPressed(pride.input.keys.A)) {
@@ -81,8 +87,8 @@ class GameScene extends pride.Scene {
                 this.next();
             }
 
-            pride.audio.playSound(this.sound, 1.5);
-            pride.audio.increaseBackgroundMusicVolume(-0.05);
+            // pride.audio.playSound(this.sound, 1.5);
+            // pride.audio.increaseBackgroundMusicVolume(-0.05);
         }
 
         if (pride.input.isKeyPressed(pride.input.keys.Q)) {

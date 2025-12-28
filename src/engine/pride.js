@@ -1,3 +1,5 @@
+"use strict";
+
 import * as math from "./math/math.js";
 
 import * as glContext from "./core/gl_context.js";
@@ -8,10 +10,12 @@ import * as text from "./resources/text.js";
 import * as xml from "./resources/xml.js";
 import * as loop from "./core/loop.js";
 import * as audio from "./resources/audio.js";
+import * as texture from "./resources/texture.js";
 
 import Camera from "./camera.js";
 import Transform from "./transform.js";
-import Renderable from "./renderable.js";
+import Renderable from "./renderables/renderable.js";
+import TextureRenderable from "./renderables/texture_renderable.js";
 import SceneFileParser from "./utils/scene_file_parser.js";
 import Scene from "./scene.js";
 
@@ -30,8 +34,9 @@ function cleanUp() {
     input.cleanUp();
     shaders.cleanUp();
     vertexBuffer.cleanUp();
-    glContext.cleanUp();
     audio.cleanUp();
+
+    glContext.cleanUp();    
 }
 
 function clearCanvas(color) {
@@ -43,10 +48,11 @@ function clearCanvas(color) {
 
 
 export default {
-    math, input, text, xml, audio,
+    math, input, text, xml, audio, texture,
     
     // Классы
-    Camera, Transform, Renderable, SceneFileParser, Scene,
+    Camera, Transform, Renderable, TextureRenderable,
+    SceneFileParser, Scene,
 
     // Функции
     init, cleanUp, clearCanvas

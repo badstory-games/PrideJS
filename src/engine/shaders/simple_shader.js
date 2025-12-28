@@ -1,6 +1,6 @@
-import * as glContext from "./core/gl_context.js";
-import * as vertexBuffer from "./core/vertex_buffer.js";
-import * as text from "./resources/text.js";
+import * as glContext from "../core/gl_context.js";
+import * as vertexBuffer from "../core/vertex_buffer.js";
+import * as text from "../resources/text.js";
 
 
 
@@ -48,7 +48,7 @@ class SimpleShader {
         gl.useProgram(this.compiledShader);
     
         // Шаг C: Привязка вершинного буфера к атрибуту, определенному в вершинном шейдере
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.getVertexBuffer());
         gl.vertexAttribPointer(
             this.vertexPositionLocation,
             3,  // Каждый элемент имеет 3-float (x, y, z)

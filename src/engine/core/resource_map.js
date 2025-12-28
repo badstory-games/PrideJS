@@ -1,3 +1,5 @@
+"use strict";
+
 class MapEntry {
     constructor(data) {
         this.data = data;

@@ -15,6 +15,8 @@ class GameScene extends pride.Scene {
         this.minion = null;
         this.hero = null;
 
+        this.label = null;
+
         this.fontTexture = "assets/textures/consolas-72.png";
         this.minionTexture = "assets/textures/minion_sprite.png";
     }
@@ -34,13 +36,15 @@ class GameScene extends pride.Scene {
 
     init() {
         this.camera = new pride.Camera(
-            pride.math.vec2.fromValues(20, 60),
-            20,
-            [20, 40, 600, 300]
+            pride.math.vec2.fromValues(50, 33),
+            100,
+            [0, 0, 600, 400]
         );
         this.camera.setBackgroundColor([0.8, 0.8, 0.8, 1.0]);
 
-
+        this.label = new pride.FontRenderable("Hello, Pride Engine!");
+        this.label.getTransform().setPosition(35, 50);
+        this.label.setTextHeight(3);
 
         this.portal = new pride.SpriteRenderable(this.minionTexture);
         this.portal.getTransform().setPosition(25, 60);
@@ -53,19 +57,19 @@ class GameScene extends pride.Scene {
         this.collector.setSpriteRegionUVCoordinates(0.308, 0, 0.483, 0.352);
 
         this.font = new pride.SpriteRenderable(this.fontTexture);
-        this.font.getTransform().setPosition(13, 62);
-        this.font.getTransform().setSize(4, 4);
+        this.font.getTransform().setPosition(15, 50);
+        this.font.getTransform().setSize(20, 20);
 
         this.minion = new pride.AnimatedSpriteRenderable(this.minionTexture);
-        this.minion.getTransform().setPosition(26, 56.5);
-        this.minion.getTransform().setSize(4, 3.2);
+        this.minion.getTransform().setPosition(15, 25);
+        this.minion.getTransform().setSize(24, 19.2);
         this.minion.setSpriteSequence(0, 512, 204, 164, 5, 0);
         this.minion.setAnimationType(pride.AnimationType.RIGHT);
         this.minion.setAnimationInterval(5);
 
         this.hero = new pride.SpriteRenderable(this.minionTexture);
-        this.hero.getTransform().setPosition(20, 60);
-        this.hero.getTransform().setSize(2, 3);
+        this.hero.getTransform().setPosition(35, 50);
+        this.hero.getTransform().setSize(12, 18);
         this.hero.setSpriteRegion(0, 0, 120, 180);
     }
 
@@ -73,6 +77,8 @@ class GameScene extends pride.Scene {
         pride.clearCanvas([0.9, 0.9, 0.9, 1.0]);
 
         this.camera.adjustProjection();
+
+        this.label.draw(this.camera)
 
         this.portal.draw(this.camera);
         this.collector.draw(this.camera);
@@ -90,15 +96,11 @@ class GameScene extends pride.Scene {
 
         if (pride.input.isKeyPressed(pride.input.keys.D)) {
             transform.increasePositionX(delta);
-
-            if (transform.getPositionX() > 30) {
-                transform.setPositionX(12);
-            }
         }
         else if (pride.input.isKeyPressed(pride.input.keys.A)) {
             transform.increasePositionX(-delta);
 
-            if (transform.getPositionX() < 11) {
+            if (transform.getPositionX() < 0) {
                 this.next();
             }
         }

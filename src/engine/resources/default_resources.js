@@ -3,7 +3,7 @@
 import * as font from "./font.js";
 import * as map from "../core/resource_map.js";
 
-let defaultFont = "src/engine/assets/fonts/system_default_font";
+let defaultFont = "src/engine/assets/fonts/default_font";
 
 
 

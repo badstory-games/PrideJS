@@ -22,6 +22,7 @@ import SpriteRenderable from "./renderables/sprite_renderable.js";
 import { TextureCoordinatesArrayIndex } from "./renderables/sprite_renderable.js";
 import AnimatedSpriteRenderable from "./renderables/animated_sprite_renderable.js";
 import { AnimationType } from "./renderables/animated_sprite_renderable.js";
+import FontRenderable from "./renderables/font_renderable.js";
 import SceneFileParser from "./utils/scene_file_parser.js";
 import Scene from "./scene.js";
 
@@ -31,6 +32,7 @@ function init(canvasID) {
     glContext.init(canvasID);
     vertexBuffer.init();
     shaders.init();
+    defaultResources.init();
     input.init();
     audio.init();
 }
@@ -39,6 +41,7 @@ function cleanUp() {
     loop.cleanUp();
     input.cleanUp();
     shaders.cleanUp();
+    defaultResources.cleanUp();
     vertexBuffer.cleanUp();
     audio.cleanUp();
 
@@ -57,7 +60,7 @@ export default {
     math, input, text, xml, audio, texture, font, defaultResources,
     
     // Классы
-    Camera, Transform, Renderable, TextureRenderable, SpriteRenderable, AnimatedSpriteRenderable,
+    Camera, Transform, Renderable, TextureRenderable, SpriteRenderable, AnimatedSpriteRenderable, FontRenderable,
     SceneFileParser, Scene,
 
     TextureCoordinatesArrayIndex, AnimationType,

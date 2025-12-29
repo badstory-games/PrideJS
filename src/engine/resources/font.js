@@ -14,7 +14,7 @@ class CharacterInfo {
         this.texCoordLeft = 0;
         this.texCoordRight = 1;
         this.texCoordBottom = 0;
-        this.texCoordTop = c
+        this.texCoordTop = 0;
 
         // ссылка на номинальный размер символа, 1 - это "стандартная ширина/высота" символа
         this.charWidth = 1;

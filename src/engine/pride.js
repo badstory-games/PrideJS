@@ -11,6 +11,8 @@ import * as xml from "./resources/xml.js";
 import * as loop from "./core/loop.js";
 import * as audio from "./resources/audio.js";
 import * as texture from "./resources/texture.js";
+import * as font from "./resources/font.js";
+import * as defaultResources from "./resources/default_resources.js";
 
 import Camera from "./camera.js";
 import Transform from "./transform.js";
@@ -52,7 +54,7 @@ function clearCanvas(color) {
 
 
 export default {
-    math, input, text, xml, audio, texture,
+    math, input, text, xml, audio, texture, font, defaultResources,
     
     // Классы
     Camera, Transform, Renderable, TextureRenderable, SpriteRenderable, AnimatedSpriteRenderable,

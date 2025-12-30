@@ -1,6 +1,9 @@
 "use strict";
 
 import pride from "../engine/pride.js";
+
+import Enemy from "./objects/enemy.js";
+import Player from "./objects/player.js";
 import SecondScene from "./second_scene.js";
 
 class GameScene extends pride.Scene {
@@ -9,68 +12,47 @@ class GameScene extends pride.Scene {
 
         this.camera = null;
 
-        this.portal = null;
-        this.collector = null;
-        this.font = null;
-        this.minion = null;
-        this.hero = null;
+        this.minionTexture = "assets/textures/minion_sprite.png";
+        this.enemyGroup = null;
+        this.player = null;
 
         this.label = null;
-
-        this.fontTexture = "assets/textures/consolas-72.png";
-        this.minionTexture = "assets/textures/minion_sprite.png";
     }
 
 
 
     load() {
-        pride.texture.load(this.fontTexture);
         pride.texture.load(this.minionTexture);
     }
         
 
     unload() {
-        pride.texture.unload(this.fontTexture);
         pride.texture.unload(this.minionTexture);
     }
 
     init() {
         this.camera = new pride.Camera(
-            pride.math.vec2.fromValues(50, 33),
-            100,
-            [0, 0, 600, 400]
+            pride.math.vec2.fromValues(854/2, 480/2),
+            854,
+            [0, 0, 854, 480]
         );
         this.camera.setBackgroundColor([0.8, 0.8, 0.8, 1.0]);
 
-        this.label = new pride.FontRenderable("Hello, Pride Engine!");
-        this.label.getTransform().setPosition(35, 50);
-        this.label.setTextHeight(3);
+        this.enemyGroup = new pride.GameObjectGroup();
+        let i = 0, randomY, enemy;
+        // create 5 minions at random Y values
+        for (i = 0; i < 5; i++) {
+            randomY = Math.random() * 480;
+            enemy = new Enemy(this.minionTexture, randomY);
+            this.enemyGroup.addGameObject(enemy);
+        }
 
-        this.portal = new pride.SpriteRenderable(this.minionTexture);
-        this.portal.getTransform().setPosition(25, 60);
-        this.portal.getTransform().setSize(3, 3);
-        this.portal.setSpriteRegion(130, 0, 310, 180);
+        this.player = new Player(this.minionTexture);
 
-        this.collector = new pride.SpriteRenderable(this.minionTexture);
-        this.collector.getTransform().setPosition(15, 60);
-        this.collector.getTransform().setSize(3, 3);
-        this.collector.setSpriteRegionUVCoordinates(0.308, 0, 0.483, 0.352);
-
-        this.font = new pride.SpriteRenderable(this.fontTexture);
-        this.font.getTransform().setPosition(15, 50);
-        this.font.getTransform().setSize(20, 20);
-
-        this.minion = new pride.AnimatedSpriteRenderable(this.minionTexture);
-        this.minion.getTransform().setPosition(15, 25);
-        this.minion.getTransform().setSize(24, 19.2);
-        this.minion.setSpriteSequence(0, 512, 204, 164, 5, 0);
-        this.minion.setAnimationType(pride.AnimationType.RIGHT);
-        this.minion.setAnimationInterval(5);
-
-        this.hero = new pride.SpriteRenderable(this.minionTexture);
-        this.hero.getTransform().setPosition(35, 50);
-        this.hero.getTransform().setSize(12, 18);
-        this.hero.setSpriteRegion(0, 0, 120, 180);
+        this.label = new pride.FontRenderable("Powered by Pride Engine");
+        this.label.setColor([0, 0, 0, 1]);
+        this.label.getTransform().setPosition(20, 20);
+        this.label.setTextHeight(16);
     }
 
     draw() {
@@ -78,42 +60,20 @@ class GameScene extends pride.Scene {
 
         this.camera.adjustProjection();
 
-        this.label.draw(this.camera)
-
-        this.portal.draw(this.camera);
-        this.collector.draw(this.camera);
-        this.font.draw(this.camera);
-        this.minion.draw(this.camera);
-        this.hero.draw(this.camera);
+        this.enemyGroup.draw(this.camera);
+        this.player.draw(this.camera);
+        
+        this.label.draw(this.camera);
     }
 
     update() {
-        this.minion.updateAnimation();
-        
-        let delta = 0.1;
+        this.enemyGroup.update();
+        this.player.update();
 
-        let transform = this.hero.getTransform();
+        this.label.update();
 
-        if (pride.input.isKeyPressed(pride.input.keys.D)) {
-            transform.increasePositionX(delta);
-        }
-        else if (pride.input.isKeyPressed(pride.input.keys.A)) {
-            transform.increasePositionX(-delta);
-
-            if (transform.getPositionX() < 0) {
-                this.next();
-            }
-        }
-
-        if (pride.input.isKeyPressed(pride.input.keys.W)) {
-            transform.increasePositionY(delta);
-        }
-        else if (pride.input.isKeyPressed(pride.input.keys.S)) {
-            transform.increasePositionY(-delta);
-        }
-
-        if (pride.input.isKeyPressed(pride.input.keys.Q)) {
-            this.stop();
+        if (this.player.getTransform().getPositionX() < 0) {
+            this.next();
         }
     }
 

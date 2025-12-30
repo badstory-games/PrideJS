@@ -59,7 +59,7 @@ class AnimatedSpriteRenderable extends SpriteRenderable {
         super.setSpriteRegionUVCoordinates(left, this.elementTop - this.elementHeight, left + this.elementWidth, this.elementTop);
     }
 
-    setSpriteSequence(x, y, width, height, numberOfFrames, padding) {
+    setAnimationSequence(x, y, width, height, numberOfFrames, padding) {
         let texInfo = texture.get(this.texture);
         let imageW = texInfo.width;
         let imageH = texInfo.height;

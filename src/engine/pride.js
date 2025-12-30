@@ -25,6 +25,8 @@ import { AnimationType } from "./renderables/animated_sprite_renderable.js";
 import FontRenderable from "./renderables/font_renderable.js";
 import SceneFileParser from "./utils/scene_file_parser.js";
 import Scene from "./scene.js";
+import GameObject from "./game_objects/game_object.js";
+import GameObjectGroup from "./game_objects/game_object_group.js";
 
 
 
@@ -61,7 +63,7 @@ export default {
     
     // Классы
     Camera, Transform, Renderable, TextureRenderable, SpriteRenderable, AnimatedSpriteRenderable, FontRenderable,
-    SceneFileParser, Scene,
+    SceneFileParser, Scene, GameObject, GameObjectGroup,
 
     TextureCoordinatesArrayIndex, AnimationType,
 

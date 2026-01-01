@@ -21,17 +21,17 @@ class Player extends pride.GameObject {
         let transform = this.getTransform();
 
         if (pride.input.isKeyPressed(pride.input.keys.W)) {
-            transform.increasePositionY(this.motionSpeed)
+            transform.increasePositionY(this.motionSpeed);
         }
         else if (pride.input.isKeyPressed(pride.input.keys.S)) {
-            transform.increasePositionY(-this.motionSpeed)
+            transform.increasePositionY(-this.motionSpeed);
         }
 
         if (pride.input.isKeyPressed(pride.input.keys.A)) {
-            transform.increasePositionX(-this.motionSpeed)
+            transform.increasePositionX(-this.motionSpeed);
         }
         else if (pride.input.isKeyPressed(pride.input.keys.D)) {
-            transform.increasePositionX(this.motionSpeed)
+            transform.increasePositionX(this.motionSpeed);
         }
     }
 }

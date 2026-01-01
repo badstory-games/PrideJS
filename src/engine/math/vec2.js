@@ -10,6 +10,7 @@ import * as glMatrix from "./common.js";
  *
  * @returns {vec2} a new 2D vector
  */
+
 export function create() {
   var out = new glMatrix.ARRAY_TYPE(2);
   if (glMatrix.ARRAY_TYPE != Float32Array) {
@@ -455,6 +456,19 @@ export function transformMat4(out, a, m) {
  * @param {Number} rad The angle of rotation in radians
  * @returns {vec2} out
  */
+
+export function simpleRotate(out, a, c) {
+  var r = [];
+
+  //perform rotation
+  r[0] = a[0] * Math.cos(c) - a[1] * Math.sin(c);
+  r[1] = a[0] * Math.sin(c) + a[1] * Math.cos(c);
+  out[0] = r[0];
+  out[1] = r[1];
+
+  return r;
+}
+
 export function rotate(out, a, b, rad) {
   //Translate point to the origin
   var p0 = a[0] - b[0],

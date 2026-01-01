@@ -1,21 +1,84 @@
 "use strict";
 
+import pride from "../pride.js";
+
 
 class GameObject {
     constructor(renderable) {
         this.renderable = renderable;
+        this.visible = true;
+        this.currentFrontDirection = pride.math.vec2.fromValues(0, 1);
+        this.motionSpeed = 0;
     }
 
 
     
+    setVisibility(mode) { this.isVisible = mode; }
+
+    isVisible() { return this.visible; }
+
+    setMotionSpeed(speed) { this.motionSpeed = speed; }
+
+    increaseMotionSpeed(speed) { this.motionSpeed += speed; }
+
+    getMotionSpeed() { return this.motionSpeed; }
+
+    setCurrentFrontDirection(frontDirection) { pride.math.vec2.normalize(this.currentFrontDirection, frontDirection); }
+
+    getCurrentFrontDirection() { return this.currentFrontDirection; }
+
+    lookAt(position, rate) {
+        let direction = [];
+        pride.math.vec2.sub(direction, position, this.getTransform().getPosition());
+        let len = pride.math.vec2.length(direction);
+        if (len < Number.MIN_VALUE) {
+            return;
+        }
+        pride.math.vec2.scale(direction, direction, 1 / len);
+
+        let fdir = this.getCurrentFrontDirection();
+        let cosTheta = pride.math.vec2.dot(direction, fdir);
+
+        if (cosTheta > 0.999999) {
+            return;
+        }
+
+        if (cosTheta > 1) {
+            cosTheta = 1;
+        } else {
+            if (cosTheta < -1) {
+                cosTheta = -1;
+            }
+        }
+
+        let dir3d = pride.math.vec3.fromValues(direction[0], direction[1], 0);
+        let f3d = pride.math.vec3.fromValues(fdir[0], fdir[1], 0);
+        let r3d = [];
+        pride.math.vec3.cross(r3d, f3d, dir3d);
+
+        let rad = Math.acos(cosTheta);
+        if (r3d[2] < 0) {
+            rad = -rad;
+        }
+
+        rad *= rate;
+        pride.math.vec2.simpleRotate(this.getCurrentFrontDirection(), this.getCurrentFrontDirection(), rad);
+        this.getTransform().increaseRotationRadians(rad);
+    }
+
     getTransform() { return this.renderable.getTransform(); }
     
     getRenderable() { return this.renderable; }
 
-    update() {  }   
+    update() {
+        let position = this.getTransform().getPosition();
+        pride.math.vec2.scaleAndAdd(position, position, this.getCurrentFrontDirection(), this.getMotionSpeed());
+    }   
 
     draw(camera) {
-        this.renderable.draw(camera);
+        if (this.isVisible()) {
+            this.renderable.draw(camera);
+        }
     }
 }
 

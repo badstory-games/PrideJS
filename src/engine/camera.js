@@ -2,6 +2,7 @@
 
 import * as glContext from "./core/gl_context.js";
 import * as math from "./math/math.js";
+import BoundingBox from "./bounding_box.js";
 
 class Camera {
     constructor(center, width, viewportArray) {
@@ -13,6 +14,15 @@ class Camera {
     }
 
 
+
+    getCollideBounds(transform, zone) {
+        let box = new BoundingBox(transform.getPosition(), transform.getWidth(), transform.getHeight());
+        let width = zone * this.getWidth();
+        let height = zone * this.getHeight();
+        let cameraBound = new BoundingBox(this.getCenter(), width, height);
+
+        return cameraBound.boundCollideStatus(box);
+    }
 
     setWidth(width) { this.width = width; }
 

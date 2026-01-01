@@ -1,6 +1,7 @@
 "use strict";
 
 import pride from "../pride.js";
+import BoundingBox from "../bounding_box.js";
 
 
 class GameObject {
@@ -13,6 +14,13 @@ class GameObject {
 
 
     
+    getBoundingBox() {
+        let transform = this.getTransform();
+        let box = new BoundingBox(transform.getPosition(), transform.getWidth(), transform.getHeight());
+
+        return box;
+    }
+
     setVisibility(mode) { this.isVisible = mode; }
 
     isVisible() { return this.visible; }

@@ -92,11 +92,15 @@ class GameScene extends pride.Scene {
             case 'K':
                 rate = 0.02;
             case 'J':
-                this.brain.lookAt(this.player.getTransform().getPosition(), rate);
-                pride.GameObject.prototype.update.call(this.brain);
+                if (!this.player.getBoundingBox().intersectsBounds(this.brain.getBoundingBox())) {
+                    this.brain.lookAt(this.player.getTransform().getPosition(), rate);
+                    pride.GameObject.prototype.update.call(this.brain);
+                }
                 break;
             }
-
+        
+        let status = this.camera.getCollideBounds(this.player.getTransform(), 0.8);
+        
         if (pride.input.isKeyJustPressed(pride.input.keys.H)) {
             this.mode = 'H';
         }
@@ -106,7 +110,8 @@ class GameScene extends pride.Scene {
         if (pride.input.isKeyJustPressed(pride.input.keys.K)) {
             this.mode = 'K';
         }
-        this.label.setText(msg + this.mode);
+
+        this.label.setText(msg + this.mode + "[Player bounds=" + status + "]");
     }
 
     next() {

@@ -11,7 +11,36 @@ class TextureInfo {
         this.width = width;
         this.height = height;
         this.id = id;
+        this.colorArray = null;
     }
+}
+
+
+
+function getColorArray(texturePath) {
+    let gl = glContext.get();
+    let textureInfo = get(texturePath);
+
+    if (textureInfo.colorArray === null) {
+        // создание фреймбуфера, привязка текстуры и чтение цвета
+        let framebuffer = gl.createFramebuffer();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, textureInfo.id, 0);
+
+        if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE) {
+            let pixels = new Uint8Array(textureInfo.width * textureInfo.height * 4);
+            gl.readPixels(0, 0, textureInfo.width, textureInfo.height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+            textureInfo.colorArray = pixels;
+        } else {
+            throw new Error("ОШИБКА: pride.texture.getColorArray(): Сбой получения массива цвета!");
+            return null;
+        }
+
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        gl.deleteFramebuffer(framebuffer);
+    }
+
+    return textureInfo.colorArray;
 }
 
 function processLoadedImage(path, image) {
@@ -86,5 +115,6 @@ export {
 
     TextureInfo,    
 
-    activate, deactivate
+    activate, deactivate,
+    getColorArray
 }

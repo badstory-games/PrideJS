@@ -1,11 +1,10 @@
 "use strict";
 
 import pride from "../engine/pride.js";
-
-import Enemy from "./objects/enemy.js";
-import Player from "./objects/player.js";
-import Brain from "./objects/brain.js";
 import SecondScene from "./second_scene.js";
+
+import TestObject from "./objects/TestObject.js";
+import TextureObject from "./objects/texture_object.js";
 
 class GameScene extends pride.Scene {
     constructor() {
@@ -13,51 +12,48 @@ class GameScene extends pride.Scene {
 
         this.camera = null;
 
-        this.minionTexture = "assets/textures/minion_sprite.png";
-        this.enemyGroup = null;
-        this.player = null;
-        this.brain = null;
+        this.minionSprite = "assets/textures/minion_sprite.png";
+        this.minionCollector = "assets/textures/minion_collector.png";
+        this.minionPortal = "assets/textures/minion_portal.png";
 
-        this.label = null;
-
-        this.mode = 'H';
+        this.msg = null;
+        this.collector = null;
+        this.portal = null;
     }
 
 
 
     load() {
-        pride.texture.load(this.minionTexture);
+        pride.texture.load(this.minionSprite);
+        pride.texture.load(this.minionCollector);
+        pride.texture.load(this.minionPortal);
     }
         
 
     unload() {
-        pride.texture.unload(this.minionTexture);
+        pride.texture.unload(this.minionSprite);
+        pride.texture.unload(this.minionCollector);
+        pride.texture.unload(this.minionPortal);
     }
 
     init() {
         this.camera = new pride.Camera(
-            pride.math.vec2.fromValues(854/2, 480/2),
-            854,
-            [0, 0, 854, 480]
+            pride.math.vec2.fromValues(50, 37.5),
+            100,
+            [0, 0, 640, 480]
         );
         this.camera.setBackgroundColor([0.8, 0.8, 0.8, 1.0]);
 
-        this.enemyGroup = new pride.GameObjectGroup();
-        let i = 0, randomY, enemy;
-        for (i = 0; i < 5; i++) {
-            randomY = Math.random() * 480;
-            enemy = new Enemy(this.minionTexture, randomY);
-            this.enemyGroup.addGameObject(enemy);
-        }
+        this.testObject = new TestObject(this.minionSprite);
+        this.testObject.setVisibility(false);
 
-        this.player = new Player(this.minionTexture);
+        this.collector = new TextureObject(this.minionCollector, 50, 30, 30, 30);
+        this.portal = new TextureObject(this.minionPortal, 70, 30, 10, 10);
 
-        this.brain = new Brain(this.minionTexture);
-
-        this.label = new pride.FontRenderable("Powered by Pride Engine");
-        this.label.setColor([0, 0, 0, 1]);
-        this.label.getTransform().setPosition(20, 20);
-        this.label.setTextHeight(16);
+        this.msg = new pride.FontRenderable("Status Message");
+        this.msg.setColor([0, 0, 0, 1]);
+        this.msg.getTransform().setPosition(1, 2);
+        this.msg.setTextHeight(3);
     }
 
     draw() {
@@ -65,53 +61,31 @@ class GameScene extends pride.Scene {
 
         this.camera.adjustProjection();
 
-        this.enemyGroup.draw(this.camera);
-        this.player.draw(this.camera);
-        this.brain.draw(this.camera);
-        
-        this.label.draw(this.camera);
+        this.collector.draw(this.camera);
+        this.portal.draw(this.camera);
+        this.testObject.draw(this.camera);
+        this.msg.draw(this.camera);
     }
 
     update() {
-        this.enemyGroup.update();
-        this.player.update();
+        let msg = "No Collision";
 
-        this.label.update();
+        this.collector.update(pride.input.keys.W, pride.input.keys.S,
+            pride.input.keys.A, pride.input.keys.D);
+        this.portal.update(pride.input.keys.Up, pride.input.keys.Down,
+            pride.input.keys.Left, pride.input.keys.Right);
 
-        if (this.player.getTransform().getPositionX() < 0) {
-            this.next();
-        }
+        let h = [];
 
-        let msg = "Brain [H:keys J:imm K:gradual]: ";
-        let rate = 1;
-        
-        switch (this.mode) {
-            case 'H':
-                this.brain.update();
-                break;
-            case 'K':
-                rate = 0.02;
-            case 'J':
-                if (!this.player.getBoundingBox().intersectsBounds(this.brain.getBoundingBox())) {
-                    this.brain.lookAt(this.player.getTransform().getPosition(), rate);
-                    pride.GameObject.prototype.update.call(this.brain);
-                }
-                break;
-            }
-        
-        let status = this.camera.getCollideBounds(this.player.getTransform(), 0.8);
-        
-        if (pride.input.isKeyJustPressed(pride.input.keys.H)) {
-            this.mode = 'H';
+        if (this.portal.pixelTouches(this.collector, h)) {
+            msg = "Collided!: (" + h[0].toPrecision(4) + " " + h[1].toPrecision(4) + ")";
+            this.testObject.setVisibility(true);
+            this.testObject.getTransform().setPositionX(h[0]);
+            this.testObject.getTransform().setPositionY(h[1]);
+        } else {
+            this.testObject.setVisibility(false);
         }
-        if (pride.input.isKeyJustPressed(pride.input.keys.J)) {
-            this.mode = 'J';
-        }
-        if (pride.input.isKeyJustPressed(pride.input.keys.K)) {
-            this.mode = 'K';
-        }
-
-        this.label.setText(msg + this.mode + "[Player bounds=" + status + "]");
+        this.msg.setText(msg);
     }
 
     next() {

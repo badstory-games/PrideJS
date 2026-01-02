@@ -14,6 +14,22 @@ class GameObject {
 
 
     
+    pixelTouches(otherObject, touchPosition) {
+        let pixelTouch = false;
+        let myRen = this.getRenderable();
+        let otherRen = otherObject.getRenderable();
+
+        if ((typeof myRen.pixelTouches === "function") && (typeof otherRen.pixelTouches === "function")) {
+            let otherBbox = otherObject.getBoundingBox();
+            if (otherBbox.intersectsBounds(this.getBoundingBox())) {
+                myRen.setColorArray();
+                otherRen.setColorArray();
+                pixelTouch = myRen.pixelTouches(otherRen, touchPosition);
+            }
+            return pixelTouch;
+        }
+    }
+
     getBoundingBox() {
         let transform = this.getTransform();
         let box = new BoundingBox(transform.getPosition(), transform.getWidth(), transform.getHeight());
@@ -21,7 +37,7 @@ class GameObject {
         return box;
     }
 
-    setVisibility(mode) { this.isVisible = mode; }
+    setVisibility(mode) { this.visible = mode; }
 
     isVisible() { return this.visible; }
 

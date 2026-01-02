@@ -29,7 +29,7 @@ class Camera {
     getWidth() { return this.width; }
 
     getHeight() {
-        let ratio = this.viewport[viewport.height] / this.viewport[viewport.width];
+        let ratio = this.viewport[Viewport.HEIGHT] / this.viewport[Viewport.WIDTH];
 
         return this.getWidth() * ratio;
     }
@@ -89,11 +89,11 @@ class Camera {
     getMatrix() { return this.cameraMatrix; }
 }
 
-const viewport = Object.freeze({
-    originX: 0,
-    originY: 1,
-    width: 2,
-    height: 3
+const Viewport = Object.freeze({
+    ORIGIN_X: 0,
+    ORIGIN_Y: 1,
+    WIDTH: 2,
+    HEIGHT: 3
 });
 
 

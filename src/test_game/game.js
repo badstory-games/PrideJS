@@ -58,6 +58,8 @@ class GameScene extends pride.Scene {
         this.label.setColor([0, 0, 0, 1]);
         this.label.getTransform().setPosition(20, 20);
         this.label.setTextHeight(16);
+
+        
     }
 
     draw() {

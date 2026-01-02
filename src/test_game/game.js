@@ -47,8 +47,8 @@ class GameScene extends pride.Scene {
         this.testObject = new TestObject(this.minionSprite);
         this.testObject.setVisibility(false);
 
-        this.collector = new TextureObject(this.minionCollector, 50, 30, 30, 30);
-        this.portal = new TextureObject(this.minionPortal, 70, 30, 10, 10);
+        this.collector = new TextureObject(this.minionSprite, 50, 30, 30, 30);
+        this.portal = new TextureObject(this.minionSprite, 70, 30, 10, 10);
 
         this.msg = new pride.FontRenderable("Status Message");
         this.msg.setColor([0, 0, 0, 1]);

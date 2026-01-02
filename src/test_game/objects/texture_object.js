@@ -7,10 +7,12 @@ class TextureObject extends pride.GameObject {
         super(null);
         this.motionSpeed = 0.2;
 
-        this.renderable = new pride.TextureRenderable(texturePath);
+        this.renderable = new pride.AnimatedSpriteRenderable(texturePath);
         this.renderable.setColor([1, 1, 1, 0.1]);
         this.renderable.getTransform().setPosition(x, y);
         this.renderable.getTransform().setSize(width, height);
+        this.renderable.setSpriteRegion(0, 0, 120, 180);
+        this.renderable.setAnimationSequence(0, 512, 204, 164, 5, 0);
     }
 
     update(up, down, left, right) {

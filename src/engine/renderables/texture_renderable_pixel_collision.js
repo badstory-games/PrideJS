@@ -13,6 +13,9 @@ TextureRenderable.prototype.setColorArray = function() {
 }
 
 TextureRenderable.prototype._getPixelAlphaValue = function(x, y) {
+    x += this.elementLeftID;
+    y += this.elementBottomID;
+    
     x = x * 4;
     y = y * 4;
 

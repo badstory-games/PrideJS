@@ -12,7 +12,7 @@ class Player extends pride.GameObject {
 
         this.renderable = new pride.SpriteRenderable(texturePath);
         this.renderable.setColor([1, 1, 1, 0]);
-        this.renderable.getTransform().setPosition(350, 256);
+        this.renderable.getTransform().setPosition(480, 256);
         this.renderable.getTransform().setSize(120, 180);
         this.renderable.setSpriteRegion(0, 0, 120, 180);
     }

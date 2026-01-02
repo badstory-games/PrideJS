@@ -77,6 +77,8 @@ class GameScene extends pride.Scene {
 
         let h = [];
 
+        this.collector.getTransform().increaseRotationDegrees(1);
+
         if (this.portal.pixelTouches(this.collector, h)) {
             msg = "Collided!: (" + h[0].toPrecision(4) + " " + h[1].toPrecision(4) + ")";
             this.testObject.setVisibility(true);

@@ -20,14 +20,34 @@ class GameObject {
         let otherRen = otherObject.getRenderable();
 
         if ((typeof myRen.pixelTouches === "function") && (typeof otherRen.pixelTouches === "function")) {
-            let otherBbox = otherObject.getBoundingBox();
-            if (otherBbox.intersectsBounds(this.getBoundingBox())) {
-                myRen.setColorArray();
-                otherRen.setColorArray();
-                pixelTouch = myRen.pixelTouches(otherRen, touchPosition);
+            if ((myRen.getTransform().getRotationRadians() === 0) && (otherRen.getTransform().getRotationRadians() === 0)) {
+                let otherBbox = otherObject.getBoundingBox();
+                if (otherBbox.intersectsBounds(this.getBoundingBox())) {
+                    myRen.setColorArray();
+                    otherRen.setColorArray();
+                    pixelTouch = myRen.pixelTouches(otherRen, touchPosition);
+                }
             }
-            return pixelTouch;
+            else {
+                let mySize = myRen.getTransform().getSize();
+                let otherSize = otherRen.getTransform().getSize();
+
+                let myR = Math.sqrt(0.5*mySize[0]*0.5*mySize[0] + 0.5*mySize[1]*0.5*mySize[1]);
+                let otherR = Math.sqrt(0.5*otherSize[0]*0.5*otherSize[0] + 0.5*otherSize[1]*0.5*otherSize[1]);
+                
+                let d = [];
+
+                pride.math.vec2.sub(d, myRen.getTransform().getPosition(), otherRen.getTransform().getPosition());
+
+                if (pride.math.vec2.length(d) < (myR + otherR)) {
+                    myRen.setColorArray();
+                    otherRen.setColorArray();
+                    pixelTouch = myRen.pixelTouches(otherRen, touchPosition);
+                }
+            }
         }
+
+        return pixelTouch;
     }
 
     getBoundingBox() {

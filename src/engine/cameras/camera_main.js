@@ -1,8 +1,11 @@
 "use strict";
 
-import * as glContext from "./core/gl_context.js";
-import * as math from "./math/math.js";
-import BoundingBox from "./bounding_box.js";
+import * as glContext from "../core/gl_context.js";
+import * as math from "../math/math.js";
+import BoundingBox from "../bounding_box.js";
+import { BoundCollideStatus } from "../bounding_box.js";
+
+
 
 class Camera {
     constructor(center, width, viewportArray) {
@@ -14,6 +17,28 @@ class Camera {
     }
 
 
+
+    clampAtBounds(transform, zone) {
+        let status = this.getCollideBounds(transform, zone);
+        
+        if (status !== BoundCollideStatus.INSIDE) {
+            let pos = transform.getPosition();
+            if ((status & BoundCollideStatus.COLLIDE_TOP) !== 0) {
+                pos[1] = (this.getCenter())[1] + (zone * this.getHeight() / 2) - (transform.getHeight() / 2);
+            }
+            if ((status & BoundCollideStatus.COLLIDE_BOTTOM) !== 0) {
+                pos[1] = (this.getCenter())[1] - (zone * this.getHeight() / 2) + (transform.getHeight() / 2);
+            }
+            if ((status & BoundCollideStatus.COLLIDE_RIGHT) !== 0) {
+                pos[0] = (this.getCenter())[0] + (zone * this.getWidth() / 2) - (transform.getWidth() / 2);
+            }
+            if ((status & BoundCollideStatus.COLLIDE_LEFT) !== 0) {
+                pos[0] = (this.getCenter())[0] - (zone * this.getWidth() / 2) + (transform.getWidth() / 2);
+            }
+        }
+
+        return status;
+    }
 
     getCollideBounds(transform, zone) {
         let box = new BoundingBox(transform.getPosition(), transform.getWidth(), transform.getHeight());

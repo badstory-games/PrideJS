@@ -14,7 +14,7 @@ import * as texture from "./resources/texture.js";
 import * as font from "./resources/font.js";
 import * as defaultResources from "./resources/default_resources.js";
 
-import Camera from "./camera.js";
+import Camera from "./cameras/camera.js";
 import Transform from "./transform.js";
 import Renderable from "./renderables/renderable.js";
 import TextureRenderable from "./renderables/texture_renderable.js";
